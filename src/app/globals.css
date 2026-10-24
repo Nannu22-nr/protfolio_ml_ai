@@ -1,0 +1,175 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    color-scheme: dark;
+  }
+
+  html {
+    scroll-behavior: smooth;
+    scroll-padding-top: 5rem;
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    @apply bg-ink font-sans text-slate-300 antialiased;
+    overflow-x: hidden;
+  }
+
+  ::selection {
+    background: rgba(45, 212, 191, 0.28);
+    color: #fff;
+  }
+
+  :focus-visible {
+    outline: 2px solid #2dd4bf;
+    outline-offset: 3px;
+    border-radius: 2px;
+  }
+}
+
+@layer components {
+  .container-x {
+    @apply mx-auto w-full max-w-7xl px-5 sm:px-8 lg:px-12;
+  }
+
+  .label {
+    @apply font-mono text-[11px] uppercase tracking-label text-signal;
+  }
+
+  .hairline {
+    @apply border-line;
+  }
+
+  .grid-bg {
+    background-image:
+      linear-gradient(to right, rgba(148, 163, 184, 0.07) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba(148, 163, 184, 0.07) 1px, transparent 1px);
+    background-size: 48px 48px;
+  }
+
+  .btn {
+    @apply inline-flex min-h-[44px] items-center justify-center gap-2 rounded-sm border px-5 py-2.5 text-sm font-medium transition-colors duration-200;
+  }
+
+  .btn-primary {
+    @apply btn border-signal bg-signal text-ink hover:bg-white hover:border-white;
+  }
+
+  .btn-ghost {
+    @apply btn border-slate-600 text-slate-100 hover:border-signal hover:text-signal;
+  }
+}
+
+@layer components {
+  .aurora {
+    background:
+      radial-gradient(600px circle at 18% 20%, rgba(45, 212, 191, 0.14), transparent 60%),
+      radial-gradient(520px circle at 85% 30%, rgba(34, 211, 238, 0.1), transparent 60%),
+      radial-gradient(700px circle at 60% 95%, rgba(99, 102, 241, 0.08), transparent 60%);
+    animation: aurora-drift 18s ease-in-out infinite alternate;
+  }
+
+  .section-rule {
+    height: 1px;
+    background: linear-gradient(to right, transparent, rgba(45, 212, 191, 0.35), transparent);
+  }
+
+  .card-surface {
+    @apply relative rounded-sm border border-line bg-navy-800/60 transition-colors duration-300 hover:border-signal/40;
+    transform-style: preserve-3d;
+  }
+}
+
+/* ---- Keyframes for the 3D project illustrations and decorative motion ---- */
+@keyframes aurora-drift {
+  from { transform: translate3d(-2%, -1%, 0) scale(1); }
+  to { transform: translate3d(2%, 2%, 0) scale(1.06); }
+}
+
+@keyframes float-y {
+  0%, 100% { transform: translateZ(var(--z, 40px)) translateY(0); }
+  50% { transform: translateZ(var(--z, 40px)) translateY(-8px); }
+}
+
+@keyframes highlight-cycle {
+  0%, 12% { opacity: 0; }
+  22%, 70% { opacity: 1; }
+  85%, 100% { opacity: 0; }
+}
+
+@keyframes flow-dash {
+  to { stroke-dashoffset: -28; }
+}
+
+@keyframes bar-cycle {
+  0%, 18% { transform: scaleX(0); }
+  45%, 85% { transform: scaleX(1); }
+  100% { transform: scaleX(0); }
+}
+
+@keyframes orbit {
+  to { transform: rotateX(-14deg) rotateY(360deg); }
+}
+
+@keyframes counter-orbit {
+  from { transform: rotateY(calc(var(--a) * -1)); }
+  to { transform: rotateY(calc(var(--a) * -1 - 360deg)); }
+}
+
+@keyframes marquee {
+  to { transform: translateX(-50%); }
+}
+
+@keyframes blink {
+  0%, 49% { opacity: 1; }
+  50%, 100% { opacity: 0.25; }
+}
+
+.anim-hl { animation: highlight-cycle 7s ease-in-out infinite; }
+.anim-flow { stroke-dasharray: 6 8; animation: flow-dash 1.4s linear infinite; }
+.anim-bar { transform-box: fill-box; transform-origin: left center; animation: bar-cycle 7s ease-in-out infinite; }
+.anim-float { animation: float-y 5s ease-in-out infinite; }
+.anim-orbit { transform: rotateX(-14deg) rotateY(0deg); animation: orbit 44s linear infinite; }
+.anim-counter { transform: rotateY(calc(var(--a) * -1)); animation: counter-orbit 44s linear infinite; }
+.anim-marquee { animation: marquee 40s linear infinite; }
+.anim-blink { animation: blink 1.4s steps(1) infinite; }
+
+.marquee-wrap:hover .anim-marquee,
+.orbit-wrap:hover .anim-orbit,
+.orbit-wrap:hover .anim-counter { animation-play-state: paused; }
+
+/* Reduced motion: remove looping and decorative animation. */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  .anim-hl,
+  .anim-bar,
+  .anim-flow,
+  .anim-float,
+  .anim-orbit,
+  .anim-counter,
+  .anim-marquee,
+  .anim-blink,
+  .aurora {
+    animation: none !important;
+  }
+
+  .anim-hl,
+  .anim-bar {
+    opacity: 1;
+    transform: none;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
+}
